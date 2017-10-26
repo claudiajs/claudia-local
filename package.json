@@ -1,0 +1,17 @@
+{
+  "name": "claudia-local",
+  "version": "1.0.0",
+  "description": "Test serverless functions built by Claudia.js locally",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Slobodan Stojanović <slobodan@cloudhorizon.com> (http://slobodan.me)",
+  "license": "MIT",
+  "dependencies": {
+    "minimist": "^1.2.0"
+  },
+  "bin": {
+    "claudia-local": "./bin/claudia-local.js"
+  }
+}
