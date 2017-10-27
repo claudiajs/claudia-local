@@ -5,12 +5,13 @@ const dockerLambda = require('../lib/docker-lambda-wrapper')
 
 function readArgs() {
   return minimist(process.argv.slice(1), {
-    string: ['handler', 'memory', 'runtime', 'source', 'timeout'],
+    string: ['event', 'handler', 'memory', 'runtime', 'source', 'timeout'],
     default: {
       memory: 128,
       runtime: 'nodejs6.10',
       source: process.cwd(),
-      timeout: 3
+      timeout: 3,
+      event: {}
     }
   })
 }
@@ -29,13 +30,12 @@ function cmd(console) {
 
   const options = {
     dockerImage: `lambci/lambda:${args.runtime}`,
+    event: args.event,
     handler: args.handler,
     dockerArgs: ['-m', `${args.memory}M`, '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`]
   }
 
-  const lambdaCallbackResult = dockerLambda(options)
-
-  console.log(lambdaCallbackResult)
+  dockerLambda(options)
 }
 
 if (require.main === module)
