@@ -24,6 +24,17 @@ Result:
 
 ![Example in terminal](./assets/example.png)
 
+## Features
+
+At the moment, this is more like a TODO list, than list of features:
+
+- [x] Run AWS Lamda function on docker-lambda locally
+- [x] Simulate AWS Lambda memory
+- [x] Simulate AWS Lambda timeout
+- [ ] Event generator — generate JSON triggers for S3, SNS, etc.
+- [ ] Simple HTTP server that simulates API Gateway
+- [ ] Use selected IAM role
+
 ## Installation
 
 ### Prerequisites
