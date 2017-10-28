@@ -6,7 +6,7 @@ This project is based on [docker-lambda](https://github.com/lambci/docker-lambda
 
 ## Example
 
-lambda.js:
+If you have lambda.js file that looks like this:
 
 ```javascript
 exports.handler = function (event, context) {
@@ -14,13 +14,13 @@ exports.handler = function (event, context) {
 };
 ```
 
-Run:
+You can run following command from the same directory:
 
 ```shell
 claudia-local --handler lambda.handler
 ```
 
-Result:
+And result should look like this:
 
 ![Example in terminal](./assets/example.png)
 
@@ -52,3 +52,23 @@ Verify that docker is working, and that you can run docker commands from the CLI
 ### Install from NPM
 
 TBA
+
+### Install from github
+
+If you want to run dev version, you'll need to:
+
+1. Clone this repository and enter the project folder
+2. Install the dependencies (`npm i`)
+3. Link the script (`npm link`)
+
+After that, `claudia-local` command will point to the local version of the code.
+
+##Command line arguments
+
+List of currently available arguments:
+
+- `handler` — specify handler function in format `file_name.exported_name`, for example if your `index.js` file uses `module.handler` for export, handler should be `index.handler`.
+- `timeout` — specify AWS Lambda timeout in seconds, default is 3, and it can be between 3 and 300 seconds.
+- `memory` — specify AWS Lambda memory in MBs, default is 128, and it can be between 128 and 1536 (1.5 GB) in 64MB increments.
+- `runtime` — specify AWS Lambda runtime, default is `nodejs6.10`, and it can be `nodejs6.10` or `nodejs4.3`.
+- `event` — [will change] specify JSON event that will be passed as AWS Lambda event. At the moment in `--event '{"hello": "world"}'` format.
