@@ -32,10 +32,15 @@ function cmd(console) {
     dockerImage: `lambci/lambda:${args.runtime}`,
     event: args.event,
     handler: args.handler,
-    dockerArgs: ['-m', `${args.memory}M`, '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`]
+    timeout: args.timeout,
+    dockerArgs: [
+      '-m', `${args.memory}M`,
+      '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`,
+      '-e', `AWS_LAMBDA_FUNCTION_TIMEOUT=${args.timeout}`
+    ]
   }
 
-  dockerLambda(options)
+  const dockerProcess = dockerLambda(options)
 }
 
 if (require.main === module)
