@@ -63,7 +63,7 @@ If you want to run dev version, you'll need to:
 
 After that, `claudia-local` command will point to the local version of the code.
 
-##Command line arguments
+## Command line arguments
 
 List of currently available arguments:
 
