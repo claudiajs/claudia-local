@@ -6,11 +6,12 @@ const getAWSCredentials = require('../lib/get-aws-credentials')
 
 function readArgs() {
   return minimist(process.argv.slice(1), {
-    string: ['event', 'handler', 'memory', 'profile', 'runtime', 'source', 'timeout'],
+    string: ['event', 'handler', 'memory', 'profile', 'region', 'runtime', 'source', 'timeout'],
     default: {
       event: {},
       memory: 128,
       profile: 'default',
+      'region': 'us-east-1',
       runtime: 'nodejs6.10',
       source: process.cwd(),
       timeout: 3
@@ -33,7 +34,8 @@ function cmd(console) {
   const dockerArgs = [
     '-m', `${args.memory}M`,
     '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`,
-    '-e', `AWS_LAMBDA_FUNCTION_TIMEOUT=${args.timeout}`
+    '-e', `AWS_LAMBDA_FUNCTION_TIMEOUT=${args.timeout}`,
+    '-e', `AWS_REGION=${args.region}`
   ]
 
   getAWSCredentials(args.profile)
