@@ -2,16 +2,18 @@
 
 const minimist = require('minimist')
 const dockerLambda = require('../lib/docker-lambda-wrapper')
+const getAWSCredentials = require('../lib/get-aws-credentials')
 
 function readArgs() {
   return minimist(process.argv.slice(1), {
-    string: ['event', 'handler', 'memory', 'runtime', 'source', 'timeout'],
+    string: ['event', 'handler', 'memory', 'profile', 'runtime', 'source', 'timeout'],
     default: {
+      event: {},
       memory: 128,
+      profile: 'default',
       runtime: 'nodejs6.10',
       source: process.cwd(),
-      timeout: 3,
-      event: {}
+      timeout: 3
     }
   })
 }
@@ -28,19 +30,31 @@ function cmd(console) {
   if (['nodejs4.3', 'nodejs6.10'].indexOf(args.runtime) < 0)
     throw new Error('You can set your runtime to either "nodejs6.10" (default one) or "nodejs4.3".')
 
-  const options = {
-    dockerImage: `lambci/lambda:${args.runtime}`,
-    event: args.event,
-    handler: args.handler,
-    timeout: args.timeout,
-    dockerArgs: [
-      '-m', `${args.memory}M`,
-      '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`,
-      '-e', `AWS_LAMBDA_FUNCTION_TIMEOUT=${args.timeout}`
-    ]
-  }
+  const dockerArgs = [
+    '-m', `${args.memory}M`,
+    '-e', `AWS_LAMBDA_FUNCTION_MEMORY_SIZE=${args.memory}`,
+    '-e', `AWS_LAMBDA_FUNCTION_TIMEOUT=${args.timeout}`
+  ]
 
-  const dockerProcess = dockerLambda(options)
+  getAWSCredentials(args.profile)
+    .then(credentials => {
+      if (credentials !== null) {
+        dockerArgs.push('-e')
+        dockerArgs.push(`AWS_ACCESS_KEY_ID=${credentials.aws_access_key_id}`)
+        dockerArgs.push('-e')
+        dockerArgs.push(`AWS_SECRET_ACCESS_KEY=${credentials.aws_secret_access_key}`)
+      }
+
+      const options = {
+        dockerImage: `lambci/lambda:${args.runtime}`,
+        event: args.event,
+        handler: args.handler,
+        timeout: args.timeout,
+        dockerArgs: dockerArgs
+      }
+
+      const dockerProcess = dockerLambda(options)
+    })
 }
 
 if (require.main === module)
