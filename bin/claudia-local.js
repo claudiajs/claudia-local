@@ -6,7 +6,7 @@ const getAWSCredentials = require('../lib/get-aws-credentials')
 
 function readArgs() {
   return minimist(process.argv.slice(1), {
-    string: ['event', 'handler', 'memory', 'profile', 'region', 'runtime', 'source', 'timeout'],
+    string: ['event', 'handler', 'memory', 'profile', 'region', 'role', 'runtime', 'source', 'timeout'],
     default: {
       event: {},
       memory: 128,
@@ -38,7 +38,7 @@ function cmd(console) {
     '-e', `AWS_REGION=${args.region}`
   ]
 
-  getAWSCredentials(args.profile)
+  getAWSCredentials(args.role, args.profile)
     .then(credentials => {
       if (credentials !== null) {
         dockerArgs.push('-e')

@@ -31,9 +31,10 @@ At the moment, this is more like a TODO list, than list of features:
 - [x] Run AWS Lamda function on docker-lambda locally
 - [x] Simulate AWS Lambda memory
 - [x] Simulate AWS Lambda timeout
+- [x] Use selected IAM role
+- [ ] Read claudia.json if it exists
 - [ ] Event generator — generate JSON triggers for S3, SNS, etc.
 - [ ] Simple HTTP server that simulates API Gateway
-- [ ] Use selected IAM role
 
 ## Installation
 
