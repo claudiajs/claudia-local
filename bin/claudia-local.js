@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
+const path = require('path')
 const minimist = require('minimist')
 const dockerLambda = require('../lib/docker-lambda-wrapper')
 const getAWSCredentials = require('../lib/get-aws-credentials')
@@ -11,16 +13,24 @@ function readArgs() {
       event: {},
       memory: 128,
       profile: 'default',
-      'region': 'us-east-1',
+      region: 'us-east-1',
       runtime: 'nodejs6.10',
       source: process.cwd(),
-      timeout: 3
+      timeout: 3,
+      config: path.join(process.cwd(), 'claudia.json')
     }
   })
 }
 
 function cmd(console) {
   const args = readArgs()
+
+  if (fs.existsSync(args.config)) {
+    const claudiaJson = require(args.config)
+    // Override default args with values from claudia.json
+    args.role = args.role || claudiaJson.lambda.role
+    args.region = (args.region === 'us-east-1') ? claudiaJson.lambda.region : args.region
+  }
 
   if (args.memory < 128 || args.memory > 1.5 * 1024 || args.memory % 64 > 0)
     throw new RangeError('You can set your memory in 64MB increments from 128MB to 1.5GB. Memory must be in MBs.')

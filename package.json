@@ -4,7 +4,9 @@
   "description": "Test serverless functions built by Claudia.js locally",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "pretest": "eslint lib spec *.js",
+    "test": "node spec/support/jasmine-runner.js",
+    "debug": "node debug spec/support/jasmine-runner.js"
   },
   "author": "Slobodan Stojanović <slobodan@cloudhorizon.com> (http://slobodan.me)",
   "license": "MIT",
@@ -14,5 +16,30 @@
   },
   "bin": {
     "claudia-local": "./bin/claudia-local.js"
-  }
+  },
+  "devDependencies": {
+    "eslint": "^4.16.0",
+    "jasmine": "^2.9.0",
+    "jasmine-spec-reporter": "^4.2.1"
+  },
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/stojanovic/claudia-local.git"
+  },
+  "keywords": [
+    "aws",
+    "lambda",
+    "local",
+    "docker-lambda",
+    "serverless",
+    "claudia",
+    "claudiajs"
+  ],
+  "bugs": {
+    "url": "https://github.com/stojanovic/claudia-local/issues"
+  },
+  "homepage": "https://github.com/stojanovic/claudia-local#readme"
 }
