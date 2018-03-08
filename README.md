@@ -26,13 +26,14 @@ And result should look like this:
 
 ## Features
 
-At the moment, this is more like a TODO list, than list of features:
+At the moment, this is more like a TODO list, than a list of features:
 
 - [x] Run AWS Lamda function on docker-lambda locally
 - [x] Simulate AWS Lambda memory
 - [x] Simulate AWS Lambda timeout
 - [x] Use selected IAM role
 - [x] Read claudia.json if it exists
+- [x] Patch the assume role policy to allow claudia-local to use selected role
 - [ ] Event generator — generate JSON triggers for S3, SNS, etc.
 - [ ] Simple HTTP server that simulates API Gateway
 
